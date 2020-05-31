@@ -1,0 +1,13 @@
+//
+//  BaseTargetType.swift
+//  Library-ios
+//
+//  Created by Rinat Mukhammetzyanov on 20/11/2019.
+//  Copyright © 2019 TEKHNOKRATIYA. All rights reserved.
+//
+
+struct {{ model.name }}: Codable {
+{% for key, value in model.properties %}
+	let {{ key }}: {{ value }}
+{% endfor %}
+}

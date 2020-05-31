@@ -1,0 +1,62 @@
+import Moya
+
+protocol {{tag}}ServiceProtocol {
+	{% for model in models %}
+		{% if model.parameters.count == 0 %}
+		func {{model.name}}(completion: @escaping (Result<{{model.responseStringValueName}}, MoyaError>) -> Void)
+		{% else %}
+		func {{model.name}}({{model.rawParameters}}, completion: @escaping (Result<{{model.responseStringValueName}}, MoyaError>) -> Void)
+		{% endif %}
+	{% endfor %}
+}
+
+struct {{tag}}Service: {{tag}}ServiceProtocol {
+	private var provider = MoyaProvider<{{tag}}API>()
+
+	{% for model in models %}
+		{% if model.parameters.count == 0 %}
+
+		func {{model.name}}(completion: @escaping (Result<{{model.responseStringValueName}}, MoyaError>) -> Void) {
+			provider.request(.{{model.name}}) { result in
+				switch result {
+				case let .success(response):
+					{% if model.responseStringValueName == "Void" %}
+					if response.statusCode == 200 || response.statusCode == 201 {
+						completion(.success(()))
+					}
+					{% else %}
+					if let {{model.responseString|lowerFirstLetter}} = try? JSONDecoder().decode({{model.responseStringValueName}}.self, from: response.data) {
+						completion(.success({{model.responseString|lowerFirstLetter}}))
+					}
+					{% endif %}
+					
+				case let .failure(error):
+					completion(.failure(error))
+				}
+			}
+		}
+
+		{% else %}
+
+		func {{model.name}}({{model.rawParameters}}, completion: @escaping (Result<{{model.responseStringValueName}}, MoyaError>) -> Void) {
+			provider.request(.{{model.name}}({{model.rawParametersToCall}})) { result in
+				switch result {
+				case let .success(response):
+					{% if model.responseStringValueName == "Void" %}
+					if response.statusCode == 200 || response.statusCode == 201 {
+						completion(.success(()))
+					}
+					{% else %}
+					if let {{model.responseString|lowerFirstLetter}} = try? JSONDecoder().decode({{model.responseStringValueName}}.self, from: response.data) {
+						completion(.success({{model.responseString|lowerFirstLetter}}))
+					}
+					{% endif %}
+				case let .failure(error):
+					completion(.failure(error))
+				}
+			}
+		}
+
+		{% endif %}
+	{% endfor %}
+}
