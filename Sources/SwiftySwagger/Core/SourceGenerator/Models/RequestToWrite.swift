@@ -199,7 +199,7 @@ class RequestToWrite: CustomStringConvertible {
 
 						switch arraySchema.itemsSchema.type {
 						case let .reference(arraySchemaValue):
-							print("[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )]")
+//							print("[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )]")
 							self.responseString = "[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )"
 
 						default:
@@ -225,7 +225,7 @@ class RequestToWrite: CustomStringConvertible {
 
 						switch arraySchema.itemsSchema.type {
 						case let .reference(arraySchemaValue):
-							print("[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )]")
+//							print("[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )]")
 							self.responseString = "[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )"
 
 						default:
@@ -284,7 +284,7 @@ class RequestToWrite: CustomStringConvertible {
 
 					switch arraySchema.itemsSchema.type {
 					case let .reference(arraySchemaValue):
-						print("[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )]")
+//						print("[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )]")
 						self.requestBodyString = "[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )"
 
 					default:
@@ -301,7 +301,7 @@ class RequestToWrite: CustomStringConvertible {
 
 					switch arraySchema.itemsSchema.type {
 					case let .reference(arraySchemaValue):
-						print("[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )]")
+//						print("[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )]")
 						self.requestBodyString = "[\(arraySchemaValue.uri.components(separatedBy: "/").last ?? "Unknown" )"
 
 					default:

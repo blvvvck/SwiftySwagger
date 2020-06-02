@@ -1,12 +1,12 @@
 PREFIX?=/usr/local
 
-PRODUCT_NAME=armature
+PRODUCT_NAME=swiftyswagger
 PRODUCT_VERSION=1.0.0-alpha.1
 TEMPLATES_NAME=Templates
 README_NAME=README.md
 LICENSE_NAME=LICENSE
 
-SOURCES_MAIN_PATH=Sources/Armature/main.swift
+SOURCES_MAIN_PATH=Sources/SwiftySwagger/main.swift
 
 BUILD_PATH=.build
 RELEASE_PATH=$(BUILD_PATH)/release/$(PRODUCT_NAME)-$(PRODUCT_VERSION)
