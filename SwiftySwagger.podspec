@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = 'SwiftySwagger'
-  spec.version = `make version`
+  spec.version = `1.0.0`
   spec.summary = 'The Swift code generator for OpenAPI / Swagger specifications.'
   spec.homepage = 'https://github.com/blvvvck/SwiftySwagger/'
   spec.license = { :type => 'MIT', :file => 'LICENSE' }
