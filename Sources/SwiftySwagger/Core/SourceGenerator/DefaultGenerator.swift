@@ -368,7 +368,7 @@ class DefaultGenerator: Generator {
 
 	private func generateAlamofireBaseTargetType(swagger: Swagger, path: Path) {
 		let context = [
-			"baseURL": "https://petstore3.swagger.io\(String((swagger.spec.servers?.first!.url.dropLast())!))"
+			"baseURL": "https://petstore3.swagger.io\(String(swagger.spec.servers?.first!.url ?? ""))"
 		]
 
 		let environment = Environment(loader: FileSystemLoader(paths: [path.appending("Templates")]))
