@@ -23,16 +23,10 @@ class GenerateCommand: Command {
 			if let specification = try? Swagger(url: URL(string: specificationURL)!) {
 				let modelGenerator = ModelGenerator(specification: specification, and: Path.current)
 				modelGenerator.generate(with: specification, path: Path.current, templateName: templateName)
-				
-				if let templateName = self.templateName {
-					let generator: Generator = DefaultGenerator()
-					generator.generate(with: specification, path: Path.current, templateName: templateName)
-					
-					stdout <<< "Successfully generated!"
-				} else {
-//					stdout <<< "Correct Default"
-					stdout <<< "Successfully generated!"
-				}
+
+				let generator: Generator = DefaultGenerator()
+				generator.generate(with: specification, path: Path.current, templateName: templateName)
+
 			} else {
 				stdout <<< "Incorrect Specification"
 			}

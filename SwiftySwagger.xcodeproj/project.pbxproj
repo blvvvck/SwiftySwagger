@@ -127,6 +127,7 @@
 		A1CCA78824840B4A00A7143E /* DefaultReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1CCA78724840B4A00A7143E /* DefaultReporter.swift */; };
 		A1CCA78A2484100800A7143E /* DefaultFileWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1CCA7892484100800A7143E /* DefaultFileWriter.swift */; };
 		A1CCA78C2484116200A7143E /* URLSessionFileWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1CCA78B2484116200A7143E /* URLSessionFileWriter.swift */; };
+		A1D21849248993D200BCE696 /* AlamofireFileWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1D21848248993D200BCE696 /* AlamofireFileWriter.swift */; };
 		OBJ_166 /* ArmatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* ArmatureTests.swift */; };
 		OBJ_167 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* XCTestManifests.swift */; };
 		OBJ_169 /* StencilSwiftKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "StencilSwiftKit::StencilSwiftKit::Product" /* StencilSwiftKit.framework */; };
@@ -576,6 +577,7 @@
 		A1CCA78724840B4A00A7143E /* DefaultReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultReporter.swift; sourceTree = "<group>"; };
 		A1CCA7892484100800A7143E /* DefaultFileWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultFileWriter.swift; sourceTree = "<group>"; };
 		A1CCA78B2484116200A7143E /* URLSessionFileWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionFileWriter.swift; sourceTree = "<group>"; };
+		A1D21848248993D200BCE696 /* AlamofireFileWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireFileWriter.swift; sourceTree = "<group>"; };
 		OBJ_10 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		OBJ_100 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		OBJ_101 /* HelpCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCommand.swift; sourceTree = "<group>"; };
@@ -1017,6 +1019,7 @@
 				A1CCA783248403E900A7143E /* FileWriter.swift */,
 				A1CCA7892484100800A7143E /* DefaultFileWriter.swift */,
 				A1CCA78B2484116200A7143E /* URLSessionFileWriter.swift */,
+				A1D21848248993D200BCE696 /* AlamofireFileWriter.swift */,
 			);
 			path = FileWriter;
 			sourceTree = "<group>";
@@ -1896,6 +1899,7 @@
 			buildActionMask = 0;
 			files = (
 				A1CCA78824840B4A00A7143E /* DefaultReporter.swift in Sources */,
+				A1D21849248993D200BCE696 /* AlamofireFileWriter.swift in Sources */,
 				A103830F247DA78C00586B69 /* SwaggerRequestBodyMediaType.swift in Sources */,
 				A10382F5247DA77F00586B69 /* SwaggerOAuthImplicitFlow.swift in Sources */,
 				A10382FB247DA78400586B69 /* SwaggerContactInfo.swift in Sources */,

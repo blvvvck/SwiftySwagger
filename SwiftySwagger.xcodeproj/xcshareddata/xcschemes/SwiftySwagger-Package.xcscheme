@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftySwagger::SwiftySwaggerTools"
-               BuildableName = "SwiftySwaggerTools.framework"
-               BlueprintName = "SwiftySwaggerTools"
+               BlueprintIdentifier = "SwiftySwagger::SwiftySwagger"
+               BuildableName = "SwiftySwagger"
+               BlueprintName = "SwiftySwagger"
                ReferencedContainer = "container:SwiftySwagger.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftySwagger::SwiftySwagger"
-               BuildableName = "SwiftySwagger"
-               BlueprintName = "SwiftySwagger"
+               BlueprintIdentifier = "SwiftySwagger::SwiftySwaggerTools"
+               BuildableName = "SwiftySwaggerTools.framework"
+               BlueprintName = "SwiftySwaggerTools"
                ReferencedContainer = "container:SwiftySwagger.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
