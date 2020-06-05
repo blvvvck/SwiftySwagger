@@ -1,0 +1,120 @@
+import Alamofire
+
+enum {{tag}}API: BaseTargetType, URLRequestConvertible {
+	{% for model in models %} 
+	{% if model.parameters.count == 0 %}
+	  case {{ model.name }}
+	{% else %}
+	  case {{ model.name }}({{model.rawParameters}})
+	{% endif %}
+	{% endfor %}
+
+	private var method: HTTPMethod {
+        switch self {
+		{% for model in models %}
+   		case .{{ model.name }}:
+   			return .{{model.method}}
+   		{% endfor %}
+        }
+    }
+
+    private var path: String {
+        switch self {
+        {% for model in models %}
+        {% if model.pathParameters.count == 0 %}
+        case .{{ model.name }}:
+          return "{{ model.url }}"
+        {% else %}
+        case let .{{ model.name }}({{model.rawParametersWithoutType}}):
+          return "{{ model.url }}"
+        {% endif %}
+   		 {% endfor %}
+   		}
+    }
+
+    private var task: HTTPTask {
+		switch self {
+        {% for model in models %}
+        {% if model.queryParameters.count == 0 and model.method == "get" %}
+          case .{{model.name}}:
+            return .request
+        {% endif %}
+        {% if model.queryParameters.count != 0 and model.method == "get" %}
+          case let .{{model.name}}({{model.rawParametersWithoutType}}):
+            return .requestParameters(bodyParameters: nil, bodyEncoding: .urlEncoding, urlParameters: {{model.queryParametersStringDictPresentation}})
+        {% endif %}
+        {% if model.method == "post" and model.parameters.count != 0 and model.requestBodyString != "" %}
+          case let .{{model.name}}({{model.rawParametersWithoutType}}):
+            return .requestParameters(bodyParameters: {{model.requestBodyStringValueName}}, bodyEncoding: .jsonEncoding, urlParameters: nil)
+        {% endif %}
+        {% if model.method == "post" and model.parameters.count != 0 and model.requestBodyString == "" %}
+          case let .{{model.name}}({{model.rawParametersWithoutType}}):
+            return .requestParameters(bodyParameters: nil, bodyEncoding: .urlEncoding, urlParameters: {{model.queryParametersStringDictPresentation}})
+        {% endif %}
+        {% if model.method == "put" and model.parameters.count != 0 and model.requestBodyString != "" %}
+            case let .{{model.name}}({{model.rawParametersWithoutType}}):
+              return .requestParameters(bodyParameters: {{model.requestBodyStringValueName}}, bodyEncoding: .jsonEncoding, urlParameters: nil)
+        {% endif %}
+        {% endfor %}
+        }
+	}
+
+	 // MARK: - URLRequestConvertible
+    func asURLRequest() throws -> URLRequest {
+		let url = try self.baseURL.asURL()
+
+        var urlRequest = URLRequest(url: url.appendingPathComponent(path))
+
+        // HTTP Method
+        urlRequest.httpMethod = method.rawValue
+
+		do {
+			switch task {
+			case .request:
+				urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+			case .requestParameters(let bodyParameters,
+									let bodyEncoding,
+									let urlParameters):
+
+				try self.configureParameters(bodyParameters: bodyParameters,
+											 bodyEncoding: bodyEncoding,
+											 urlParameters: urlParameters,
+											 request: &urlRequest)
+
+			case .requestParametersAndHeaders(let bodyParameters,
+											  let bodyEncoding,
+											  let urlParameters,
+											  let additionalHeaders):
+
+				self.addAdditionalHeaders(additionalHeaders, request: &urlRequest)
+				try self.configureParameters(bodyParameters: bodyParameters,
+											 bodyEncoding: bodyEncoding,
+											 urlParameters: urlParameters,
+											 request: &urlRequest)
+			}
+		} catch {
+			throw error
+		}
+
+        return urlRequest
+    }
+
+	fileprivate func configureParameters(bodyParameters: Encodable?,
+										 bodyEncoding: ParameterEncoding,
+										 urlParameters: Parameters?,
+										 request: inout URLRequest) throws {
+		do {
+			try bodyEncoding.encode(urlRequest: &request,
+									bodyParameters: bodyParameters, urlParameters: urlParameters)
+		} catch {
+			throw error
+		}
+	}
+
+	fileprivate func addAdditionalHeaders(_ additionalHeaders: HTTPHeaders?, request: inout URLRequest) {
+		guard let headers = additionalHeaders else { return }
+		for header in headers {
+			request.setValue(header.value, forHTTPHeaderField: header.name)
+		}
+	}
+}

@@ -1,0 +1,47 @@
+import Alamofire
+
+protocol {{tag}}ServiceProtocol {
+    {% for model in models %}
+        {% if model.parameters.count == 0 %}
+        func {{model.name}}(completion: @escaping (Swift.Result<{{model.responseStringValueName}}, AFError>) -> Void)
+        {% else %}
+        func {{model.name}}({{model.rawParameters}}, completion: @escaping (Swift.Result<{{model.responseStringValueName}}, AFError>) -> Void)
+        {% endif %}
+    {% endfor %}
+}
+
+class {{tag}}Service: {{tag}}ServiceProtocol   {
+
+@discardableResult
+    func performRequest<T:Decodable>(route:{{tag}}API, decoder: JSONDecoder = JSONDecoder(), completion:@escaping (Result<T, AFError>)->Void) -> DataRequest {
+        return AF.request(route)
+                        .responseDecodable (decoder: decoder){ (response: DataResponse<T, AFError>) in
+                            completion(response.result)
+        }
+    }
+
+    @discardableResult
+    func performRequest(route: {{tag}}API, completion:@escaping (Result<Void, AFError>)->Void) -> DataRequest {
+        AF.request(route).response { (response) in
+            if response.error == nil {
+                completion(.success(()))
+            } else {
+                completion(.failure(response.error!))
+            }
+        }
+    }
+
+{% for model in models %} 
+    {% if model.parameters.count == 0 %}
+
+    func {{model.name}}(completion: @escaping (Swift.Result<{{model.responseStringValueName}}, AFError>) -> Void) {
+        performRequest(route: {{tag}}API.{{model.name}}, completion: completion)
+    }
+
+    {% else %}
+    func {{model.name}}({{model.rawParameters}}, completion: @escaping (Swift.Result<{{model.responseStringValueName}}, AFError>) -> Void) {
+        performRequest(route: {{tag}}API.{{model.name}}({{model.rawParametersToCall}}), completion: completion)
+    }
+    {% endif %}
+    {% endfor %}
+}

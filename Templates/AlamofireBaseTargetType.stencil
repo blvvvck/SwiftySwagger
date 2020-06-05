@@ -1,0 +1,8 @@
+
+protocol BaseTargetType {}
+
+extension BaseTargetType {
+	var baseURL: String {
+		return "{{baseURL}}"
+	}
+}

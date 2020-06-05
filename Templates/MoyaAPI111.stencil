@@ -1,0 +1,73 @@
+import Moya
+
+enum {{tag}}API {
+{% for model in models %} 
+{% if model.parameters.count == 0 %}
+  case {{ model.name }}
+{% else %}
+  case {{ model.name }}({{model.rawParameters}})
+{% endif %}
+{% endfor %}
+}
+
+extension {{tag}}API: BaseTargetType {
+    // MARK: - Instance Properties
+
+    var path: String {
+        switch self {
+        {% for model in models %}
+        {% if model.pathParameters.count == 0 %}
+        case .{{ model.name }}:
+          return "{{ model.url }}"
+        {% else %}
+        case let .{{ model.name }}({{model.rawParametersWithoutType}}):
+          return "{{ model.url }}"
+        {% endif %}
+   		 {% endfor %}
+        }
+    }
+
+    var method: Moya.Method {
+        switch self {
+        {% for model in models %}
+   		case .{{ model.name }}:
+   			return .{{model.method}}
+   		{% endfor %}
+        }
+    }
+
+    var task: Task {
+        switch self {
+        {% for model in models %}
+        {% if model.queryParameters.count == 0 and model.method == "get" %}
+          case .{{model.name}}:
+            return .requestPlain
+        {% endif %}
+        {% if model.queryParameters.count != 0 and model.method == "get" %}
+          case let .{{model.name}}({{model.rawParametersWithoutType}}):
+            return .requestParameters(parameters: {{model.queryParametersStringDictPresentation}}, encoding: JSONEncoding.default)
+        {% endif %}
+        {% if model.method == "post" and model.parameters.count != 0 and model.requestBodyString != "" %}
+          case let .{{model.name}}({{model.rawParametersWithoutType}}):
+            return .requestJSONEncodable({{model.requestBodyStringValueName}})
+        {% endif %}
+        {% if model.method == "post" and model.parameters.count != 0 and model.requestBodyString == "" %}
+          case let .{{model.name}}({{model.rawParametersWithoutType}}):
+            return .requestParameters(parameters: {{model.queryParametersStringDictPresentation}}, encoding: JSONEncoding.default)
+        {% endif %}
+        {% if model.method == "put" and model.parameters.count != 0 and model.requestBodyString != "" %}
+          case let .{{model.name}}({{model.rawParametersWithoutType}}):
+            return .requestJSONEncodable({{model.requestBodyStringValueName}})
+        {% endif %}
+        {% endfor %}
+        }
+    }
+
+    var sampleData: Data {
+        return Data()
+    }
+
+    var headers: [String: String]? {
+        return nil
+    }
+}
