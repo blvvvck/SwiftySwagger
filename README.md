@@ -15,8 +15,8 @@ pod 'SwiftySwaggerPod'
 #### 
 
 ```sh
-$ git clone https://github.com/yonaskolb/SwagGen.git
-$ cd swaggen
+$ git clone https://github.com/blvvvck/SwiftySwagger.git
+$ cd SwiftySwagger
 $ swift run
 ```
 ## Usage As CLI
